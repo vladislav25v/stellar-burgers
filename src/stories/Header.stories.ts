@@ -10,6 +10,9 @@ const meta = {
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: 'fullscreen'
+  },
+  args: {
+    pathname: '/'
   }
 } satisfies Meta<typeof AppHeaderUI>;
 
@@ -18,7 +21,8 @@ type Story = StoryObj<typeof meta>;
 
 export const LoggedIn: Story = {
   args: {
-    userName: 'John Doe'
+    userName: 'John Doe',
+    pathname: '/profile'
   }
 };
 

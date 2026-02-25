@@ -12,7 +12,8 @@ export {
   fetchUser,
   loginUser,
   logoutUser,
-  registerUser
+  registerUser,
+  updateUser
 } from './auth-slice';
 export {
   closeOrderModal,

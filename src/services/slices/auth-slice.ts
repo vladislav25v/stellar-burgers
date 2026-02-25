@@ -4,6 +4,7 @@ import {
   loginUserApi,
   logoutApi,
   registerUserApi,
+  updateUserApi,
   TLoginData,
   TRegisterData
 } from '@api';
@@ -38,7 +39,7 @@ export const registerUser = createAsyncThunk<
     return response.user;
   } catch (error) {
     return rejectWithValue(
-      error instanceof Error ? error.message : 'Failed to register'
+      error instanceof Error ? error.message : 'Ошибка регистрации'
     );
   }
 });
@@ -54,7 +55,7 @@ export const loginUser = createAsyncThunk<
     return response.user;
   } catch (error) {
     return rejectWithValue(
-      error instanceof Error ? error.message : 'Failed to login'
+      error instanceof Error ? error.message : 'Ошибка авторизации'
     );
   }
 });
@@ -69,7 +70,7 @@ export const fetchUser = createAsyncThunk<TUser, void, { rejectValue: string }>(
       localStorage.removeItem('refreshToken');
       deleteCookie('accessToken');
       return rejectWithValue(
-        error instanceof Error ? error.message : 'Failed to load user'
+        error instanceof Error ? error.message : 'Ошибка загрузки пользователя'
       );
     }
   }
@@ -84,11 +85,28 @@ export const logoutUser = createAsyncThunk<void, void, { rejectValue: string }>(
       deleteCookie('accessToken');
     } catch (error) {
       return rejectWithValue(
-        error instanceof Error ? error.message : 'Failed to logout'
+        error instanceof Error ? error.message : 'Ошибка выхода из профиля'
       );
     }
   }
 );
+
+export const updateUser = createAsyncThunk<
+  TUser,
+  Partial<TRegisterData>,
+  { rejectValue: string }
+>('auth/updateUser', async (data, { rejectWithValue }) => {
+  try {
+    const response = await updateUserApi(data);
+    return response.user;
+  } catch (error) {
+    return rejectWithValue(
+      error instanceof Error
+        ? error.message
+        : 'Не удалось обновить пользователя'
+    );
+  }
+});
 
 const authSlice = createSlice({
   name: 'auth',
@@ -131,6 +149,18 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = null;
         state.error = action.payload || null;
+      })
+      .addCase(updateUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload;
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload || 'Failed to update user';
       })
       .addCase(logoutUser.fulfilled, (state) => {
         state.isLoading = false;

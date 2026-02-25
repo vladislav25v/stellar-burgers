@@ -5,7 +5,8 @@ export {
   constructorReducer,
   moveIngredientDown,
   moveIngredientUp,
-  removeIngredient
+  removeIngredient,
+  resetConstructor
 } from './constructor-slice';
 export {
   authReducer,

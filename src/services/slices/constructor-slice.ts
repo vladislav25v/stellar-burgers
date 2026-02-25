@@ -19,18 +19,23 @@ const constructorSlice = createSlice({
   name: 'constructor',
   initialState,
   reducers: {
-    addIngredient: (state, action: PayloadAction<TIngredient>) => {
-      const ingredient = action.payload;
+    addIngredient: {
+      reducer: (state, action: PayloadAction<TConstructorIngredient>) => {
+        const ingredient = action.payload;
 
-      if (ingredient.type === 'bun') {
-        state.constructorItems.bun = ingredient;
-        return;
-      }
+        if (ingredient.type === 'bun') {
+          state.constructorItems.bun = ingredient;
+          return;
+        }
 
-      state.constructorItems.ingredients.push({
-        ...ingredient,
-        id: nanoid()
-      });
+        state.constructorItems.ingredients.push(ingredient);
+      },
+      prepare: (ingredient: TIngredient) => ({
+        payload: {
+          ...ingredient,
+          id: nanoid()
+        }
+      })
     },
     removeIngredient: (state, action: PayloadAction<string>) => {
       state.constructorItems.ingredients =
@@ -56,6 +61,10 @@ const constructorSlice = createSlice({
       }
 
       [items[index], items[index + 1]] = [items[index + 1], items[index]];
+    },
+    resetConstructor: (state) => {
+      state.constructorItems.bun = null;
+      state.constructorItems.ingredients = [];
     }
   }
 });
@@ -64,7 +73,8 @@ export const {
   addIngredient,
   removeIngredient,
   moveIngredientUp,
-  moveIngredientDown
+  moveIngredientDown,
+  resetConstructor
 } = constructorSlice.actions;
 
 export const constructorReducer = constructorSlice.reducer;

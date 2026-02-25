@@ -5,7 +5,7 @@ import {
   selectOrderModalData,
   selectOrderRequest
 } from '@selectors';
-import { closeOrderModal, createOrder } from '@slices';
+import { closeOrderModal, createOrder, resetConstructor } from '@slices';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { useDispatch, useSelector } from '../../services/store';
@@ -34,7 +34,12 @@ export const BurgerConstructor: FC = () => {
       constructorItems.bun._id
     ];
 
-    await dispatch(createOrder(ingredientsIds));
+    try {
+      await dispatch(createOrder(ingredientsIds)).unwrap();
+      dispatch(resetConstructor());
+    } catch {
+      // error is handled in Redux state
+    }
   };
 
   const closeOrderDetailsModal = () => dispatch(closeOrderModal());

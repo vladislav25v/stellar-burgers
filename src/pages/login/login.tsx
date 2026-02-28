@@ -1,17 +1,52 @@
 import { FC, SyntheticEvent, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { selectAuthError } from '@selectors';
+import { loginUser } from '@slices';
 import { LoginUI } from '@ui-pages';
+import { useDispatch, useSelector } from '../../services/store';
+
+type TLocationState = {
+  from?: {
+    pathname: string;
+  };
+};
+
+const MIN_PASSWORD_LENGTH = 6;
 
 export const Login: FC = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const authError = useSelector(selectAuthError);
+  const from = (location.state as TLocationState | null)?.from?.pathname || '/';
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [validationError, setValidationError] = useState('');
 
-  const handleSubmit = (e: SyntheticEvent) => {
+  const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
+
+    if (password.trim().length < MIN_PASSWORD_LENGTH) {
+      setValidationError(
+        `Пароль должен быть не короче ${MIN_PASSWORD_LENGTH} символов`
+      );
+      return;
+    }
+
+    setValidationError('');
+
+    try {
+      await dispatch(loginUser({ email, password })).unwrap();
+      navigate(from, { replace: true });
+    } catch {
+      // error is handled in Redux state
+    }
   };
 
   return (
     <LoginUI
-      errorText=''
+      errorText={validationError || authError || ''}
       email={email}
       setEmail={setEmail}
       password={password}

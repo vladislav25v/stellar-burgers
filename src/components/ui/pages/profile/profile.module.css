@@ -5,3 +5,8 @@
 .form {
   max-width: 480px;
 }
+
+.success {
+  color: #00a66a;
+  text-align: center;
+}

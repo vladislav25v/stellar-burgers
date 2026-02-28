@@ -1,0 +1,44 @@
+{
+  "success": true,
+  "data": [
+    {
+      "_id": "bun_1",
+      "name": "Test Bun",
+      "type": "bun",
+      "proteins": 12,
+      "fat": 24,
+      "carbohydrates": 33,
+      "calories": 400,
+      "price": 500,
+      "image": "https://code.s3.yandex.net/react/code/bun-01.png",
+      "image_large": "https://code.s3.yandex.net/react/code/bun-01-large.png",
+      "image_mobile": "https://code.s3.yandex.net/react/code/bun-01-mobile.png"
+    },
+    {
+      "_id": "main_1",
+      "name": "Test Main",
+      "type": "main",
+      "proteins": 80,
+      "fat": 20,
+      "carbohydrates": 10,
+      "calories": 220,
+      "price": 300,
+      "image": "https://code.s3.yandex.net/react/code/meat-01.png",
+      "image_large": "https://code.s3.yandex.net/react/code/meat-01-large.png",
+      "image_mobile": "https://code.s3.yandex.net/react/code/meat-01-mobile.png"
+    },
+    {
+      "_id": "sauce_1",
+      "name": "Test Sauce",
+      "type": "sauce",
+      "proteins": 4,
+      "fat": 6,
+      "carbohydrates": 12,
+      "calories": 90,
+      "price": 50,
+      "image": "https://code.s3.yandex.net/react/code/sauce-01.png",
+      "image_large": "https://code.s3.yandex.net/react/code/sauce-01-large.png",
+      "image_mobile": "https://code.s3.yandex.net/react/code/sauce-01-mobile.png"
+    }
+  ]
+}

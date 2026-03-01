@@ -25,6 +25,25 @@ const createIngredient = (
 });
 
 describe('burgerConstructor reducer', () => {
+  it('replaces bun on repeated add and does not put buns into ingredients', () => {
+    const firstBun = createIngredient('bun_1', 'Bun 1', 'bun');
+    const secondBun = createIngredient('bun_2', 'Bun 2', 'bun');
+
+    const stateWithFirstBun = constructorReducer(
+      undefined,
+      addIngredient(firstBun)
+    );
+    const state = constructorReducer(stateWithFirstBun, addIngredient(secondBun));
+
+    expect(state.constructorItems.bun).toMatchObject({
+      _id: secondBun._id,
+      name: secondBun.name,
+      type: secondBun.type
+    });
+    expect(state.constructorItems.bun?.id).toEqual(expect.any(String));
+    expect(state.constructorItems.ingredients).toHaveLength(0);
+  });
+
   it('handles addIngredient action', () => {
     const main = createIngredient('main_1', 'Main 1', 'main');
 

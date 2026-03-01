@@ -8,10 +8,13 @@ const addIngredientById = (id: string) => {
 };
 
 describe('Burger constructor page', () => {
+  beforeEach(() => {
+    cy.clearLocalStorage();
+    cy.clearCookies();
+  });
+
   describe('Ingredients and modal behavior', () => {
     beforeEach(() => {
-      cy.clearLocalStorage();
-      cy.clearCookies();
       cy.visit('/');
       cy.wait('@getIngredients');
     });
@@ -39,9 +42,6 @@ describe('Burger constructor page', () => {
 
   describe('Order creation flow', () => {
     beforeEach(() => {
-      cy.clearLocalStorage();
-      cy.clearCookies();
-
       cy.visit('/', {
         onBeforeLoad(win) {
           win.localStorage.setItem('refreshToken', 'mock-refresh-token');
@@ -51,11 +51,6 @@ describe('Burger constructor page', () => {
       });
       cy.wait('@getIngredients');
       cy.wait('@getUser');
-    });
-
-    afterEach(() => {
-      cy.clearLocalStorage();
-      cy.clearCookies();
     });
 
     it('creates an order, shows correct order number, then clears constructor', () => {

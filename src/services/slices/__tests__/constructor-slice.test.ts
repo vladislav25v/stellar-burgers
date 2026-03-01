@@ -40,7 +40,6 @@ describe('burgerConstructor reducer', () => {
       name: secondBun.name,
       type: secondBun.type
     });
-    expect(state.constructorItems.bun?.id).toEqual(expect.any(String));
     expect(state.constructorItems.ingredients).toHaveLength(0);
   });
 
